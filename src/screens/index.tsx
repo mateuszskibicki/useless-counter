@@ -1,15 +1,11 @@
-import AuthLoadingScreen from "./AuthLoadingScreen";
-import LoginScreen from "./LoginScreen";
-import LogoutScreen from "./LogoutScreen";
-import HomeScreen from "./HomeScreen";
-import SecondScreen from "./SecondScreen";
-import SettingsScreen from "./SettingsScreen";
+import CounterScreen from "./CounterScreen";
+import HighestScoreScreen from "./HighestScoreScreen";
+import LowestScoreScreen from "./LowestScoreScreen";
+import SupportScreen from "./SupportScreen";
 
 export default {
-  AuthLoadingScreen,
-  LoginScreen,
-  LogoutScreen,
-  HomeScreen,
-  SecondScreen,
-  SettingsScreen
+  CounterScreen,
+  HighestScoreScreen,
+  LowestScoreScreen,
+  SupportScreen
 };

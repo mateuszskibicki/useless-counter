@@ -1,20 +1,20 @@
 export interface IColors {
-  textColor: String;
-  secondaryTextColor: String;
-  whiteSmoke: String;
-  whiteTextColor: String;
-  backgroundColor: String;
-  primary: String;
-  tomatoColor: String;
+  textColor: string;
+  secondaryTextColor: string;
+  whiteSmoke: string;
+  whiteTextColor: string;
+  backgroundColor: string;
+  primary: string;
+  tomatoColor: string;
 }
 
 const colors: IColors = {
-  textColor: "#343a40",
+  textColor: "#333",
   secondaryTextColor: "#6c757d",
   whiteSmoke: "#f5f5f5",
-  whiteTextColor: "#fafafa",
-  backgroundColor: "#fafafa",
-  primary: "#00986f",
+  whiteTextColor: "#fafafab",
+  backgroundColor: "#fafafb",
+  primary: "#009688",
   tomatoColor: "#ff6347"
 };
 
