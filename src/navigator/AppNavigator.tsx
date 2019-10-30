@@ -11,19 +11,26 @@ import { Icon } from "native-base";
 import Screens from "../screens";
 import { colors } from "../constants/stylesMain";
 
+interface InavOptionHelperProps {
+  isFocused: boolean;
+  title: string;
+  iconType: string | any;
+  iconName: string;
+}
+
+interface InavOptionHelper {
+  title: string;
+  tabBarIcon: JSX.Element;
+}
+
 const navOptionHelper: Function = ({
   isFocused,
   title,
   iconType,
   iconName
-}: {
-  isFocused: boolean;
-  title: string;
-  iconType: string | any;
-  iconName: string;
-}): { title: string; tabBarIcon: JSX.Element } => {
+}: InavOptionHelperProps): InavOptionHelper => {
   const color: string = isFocused ? colors.primary : colors.textColor;
-  const fontSize: number = isFocused ? 25 : 21;
+  const fontSize: number = isFocused ? 25 : 22;
   return {
     title,
     tabBarIcon: (
