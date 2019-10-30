@@ -16,8 +16,3 @@ export const setLoadingStart: Function = (): ISetLoadingStart => {
 export const setLoadingStop: Function = (): ISetLoadingStop => {
   return { type: LOADING_DATA_STOP };
 };
-
-// // Set loading to false
-// export const setLoadingStop = () => dispatch => {
-//   dispatch({ type: LOADING_DATA_STOP });
-// };
