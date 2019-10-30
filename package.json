@@ -36,6 +36,7 @@
     "babel-preset-expo": "^7.0.0",
     "jest": "^24.9.0",
     "jest-expo": "^35.0.0",
+    "redux-mock-store": "^1.5.3",
     "ts-jest": "^24.1.0",
     "typescript": "^3.4.5"
   },
