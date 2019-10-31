@@ -16,9 +16,6 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe("Redux - loading", () => {
-  // --------------------
-  // ------------ ACTIONS
-  // --------------------
   describe("ACTIONS", () => {
     // SET LOADING START
     describe("setLoadingStart", () => {
