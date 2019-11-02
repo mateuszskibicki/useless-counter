@@ -6,6 +6,12 @@ import MainLayout from "../components/layout/main/MainLayout";
 import { incrementOne, decrementOne, setZero } from "../store/actions/counter";
 import { ICounter } from "../types/types";
 import { colors } from "../constants/stylesMain";
+// import {
+//   AdMobBanner
+//   // AdMobInterstitial,
+//   // PublisherBanner,
+//   // AdMobRewarded
+// } from "expo-ads-admob";
 
 export interface IProps {
   navigation: any;
@@ -49,13 +55,34 @@ const CounterScreen: NavFunctionComponent = ({
       );
     }
   };
+  const onSubmitScore = (): void => {
+    if (counter.number === 0) {
+      Alert.alert(
+        "Error",
+        "You can't submit score 0, try again with different number.",
+        [{ text: "Ok" }],
+        { cancelable: false }
+      );
+    }
+  };
 
   return (
     <MainLayout>
       <Content padder contentContainerStyle={styles.mainContainer}>
+        {/* Banner AdMob */}
+        {/* <AdMobBanner
+          bannerSize="largeBanner"
+          adUnitID="ca-app-pub-3946063352423429/4621528252"
+          // testDeviceID="EMULATOR"
+          // servePersonalizedAds // true or false
+          onDidFailToReceiveAdWithError={err => console.log(err)}
+        /> */}
+        {/* Counter */}
         <Text style={styles.numberStyles}>{counter.number}</Text>
         <View>
+          {/* Buttons functional */}
           <Row style={styles.buttonsWrapperStyle}>
+            {/* Button - */}
             <Col style={styles.buttonWrapperStyle}>
               <Button
                 onPress={onDecrementPress}
@@ -64,11 +91,13 @@ const CounterScreen: NavFunctionComponent = ({
                 <Text style={styles.buttonTextStyle}>-1</Text>
               </Button>
             </Col>
+            {/* Button set 0 */}
             <Col style={styles.buttonWrapperStyle}>
               <Button onPress={onSetZero} style={styles.buttonStyle}>
                 <Text style={styles.buttonTextStyle}>Set 0</Text>
               </Button>
             </Col>
+            {/* Button + */}
             <Col style={styles.buttonWrapperStyle}>
               <Button
                 onPress={onIncrementPress}
@@ -78,6 +107,18 @@ const CounterScreen: NavFunctionComponent = ({
               </Button>
             </Col>
           </Row>
+
+          {/* Button submit */}
+          <View
+            style={[styles.buttonWrapperStyle, styles.buttonWrapperSubmitStyle]}
+          >
+            <Button
+              onPress={onSubmitScore}
+              style={[styles.buttonStyle, styles.buttonSubmitStyle]}
+            >
+              <Text style={styles.buttonTextStyle}>Submit score</Text>
+            </Button>
+          </View>
         </View>
       </Content>
     </MainLayout>
@@ -87,7 +128,7 @@ const CounterScreen: NavFunctionComponent = ({
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: colors.primary,
+    // backgroundColor: colors.primary,
     justifyContent: "space-around",
     flexDirection: "column"
   },
@@ -102,6 +143,12 @@ const styles = StyleSheet.create({
   },
   buttonsWrapperStyle: {
     justifyContent: "center"
+  },
+  buttonWrapperSubmitStyle: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 60
   },
   buttonWrapperStyle: {
     padding: 2,
@@ -119,6 +166,10 @@ const styles = StyleSheet.create({
   buttonIncrementStyle: {
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20
+  },
+  buttonSubmitStyle: {
+    width: 230,
+    borderRadius: 20
   },
   buttonTextStyle: {
     fontSize: 20,
