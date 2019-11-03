@@ -1,11 +1,9 @@
-// Common
-export const LOADING_DATA_START: String = "LOADING_DATA_START";
-export const LOADING_DATA_STOP: String = "LOADING_DATA_STOP";
-
 // Counter
 export const INCREMENT_ONE: String = "INCREMENT_ONE";
 export const DECREMENT_ONE: String = "DECREMENT_ONE";
 export const SET_ZERO: String = "SET_ZERO";
+
+// Scores
 export const SET_SCORES_LOADING_TRUE: String = "SET_SCORES_LOADING_TRUE";
 export const SET_SCORES_LOADING_FALSE: String = "SET_SCORES_LOADING_FALSE";
 export const GET_LOWEST_SCORES: String = "GET_LOWEST_SCORES";

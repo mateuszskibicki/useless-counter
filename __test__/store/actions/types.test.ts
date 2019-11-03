@@ -1,26 +1,18 @@
 import {
-  LOADING_DATA_START,
-  LOADING_DATA_STOP,
   INCREMENT_ONE,
   DECREMENT_ONE,
-  SET_ZERO
+  SET_ZERO,
+  SET_SCORES_LOADING_TRUE,
+  SET_SCORES_LOADING_FALSE,
+  GET_LOWEST_SCORES,
+  SET_LOWEST_SCORES_ERROR_TRUE,
+  SET_LOWEST_SCORES_ERROR_FALSE,
+  GET_HIGHEST_SCORES,
+  SET_HIGHEST_SCORES_ERROR_TRUE,
+  SET_HIGHEST_SCORES_ERROR_FALSE
 } from "../../../src/store/actions/types";
 
 describe("REDUX - TYPES", () => {
-  describe("LOADING_DATA_START", () => {
-    test("should be defined and string", () => {
-      expect(LOADING_DATA_START).toBeDefined();
-      expect(typeof LOADING_DATA_START === "string").toBeTruthy();
-    });
-  });
-
-  describe("LOADING_DATA_STOP", () => {
-    test("should be defined and string", () => {
-      expect(LOADING_DATA_STOP).toBeDefined();
-      expect(typeof LOADING_DATA_STOP === "string").toBeTruthy();
-    });
-  });
-
   describe("INCREMENT_ONE", () => {
     test("should be defined and string", () => {
       expect(INCREMENT_ONE).toBeDefined();
@@ -39,6 +31,62 @@ describe("REDUX - TYPES", () => {
     test("should be defined and string", () => {
       expect(SET_ZERO).toBeDefined();
       expect(typeof SET_ZERO === "string").toBeTruthy();
+    });
+  });
+
+  describe("SET_SCORES_LOADING_TRUE", () => {
+    test("should be defined and string", () => {
+      expect(SET_SCORES_LOADING_TRUE).toBeDefined();
+      expect(typeof SET_SCORES_LOADING_TRUE === "string").toBeTruthy();
+    });
+  });
+
+  describe("SET_SCORES_LOADING_FALSE", () => {
+    test("should be defined and string", () => {
+      expect(SET_SCORES_LOADING_FALSE).toBeDefined();
+      expect(typeof SET_SCORES_LOADING_FALSE === "string").toBeTruthy();
+    });
+  });
+
+  describe("GET_LOWEST_SCORES", () => {
+    test("should be defined and string", () => {
+      expect(GET_LOWEST_SCORES).toBeDefined();
+      expect(typeof GET_LOWEST_SCORES === "string").toBeTruthy();
+    });
+  });
+
+  describe("SET_LOWEST_SCORES_ERROR_TRUE", () => {
+    test("should be defined and string", () => {
+      expect(SET_LOWEST_SCORES_ERROR_TRUE).toBeDefined();
+      expect(typeof SET_LOWEST_SCORES_ERROR_TRUE === "string").toBeTruthy();
+    });
+  });
+
+  describe("SET_LOWEST_SCORES_ERROR_FALSE", () => {
+    test("should be defined and string", () => {
+      expect(SET_LOWEST_SCORES_ERROR_FALSE).toBeDefined();
+      expect(typeof SET_LOWEST_SCORES_ERROR_FALSE === "string").toBeTruthy();
+    });
+  });
+
+  describe("GET_HIGHEST_SCORES", () => {
+    test("should be defined and string", () => {
+      expect(GET_HIGHEST_SCORES).toBeDefined();
+      expect(typeof GET_HIGHEST_SCORES === "string").toBeTruthy();
+    });
+  });
+
+  describe("SET_HIGHEST_SCORES_ERROR_TRUE", () => {
+    test("should be defined and string", () => {
+      expect(SET_HIGHEST_SCORES_ERROR_TRUE).toBeDefined();
+      expect(typeof SET_HIGHEST_SCORES_ERROR_TRUE === "string").toBeTruthy();
+    });
+  });
+
+  describe("SET_HIGHEST_SCORES_ERROR_FALSE", () => {
+    test("should be defined and string", () => {
+      expect(SET_HIGHEST_SCORES_ERROR_FALSE).toBeDefined();
+      expect(typeof SET_HIGHEST_SCORES_ERROR_FALSE === "string").toBeTruthy();
     });
   });
 });

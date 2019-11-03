@@ -26,7 +26,7 @@ describe("Redux - counter", () => {
         expect(typeof incrementOne === "function").toBeDefined();
       });
 
-      test("incrementOne - should add number 1", async () => {
+      test("incrementOne - type of INCREMENT_ONE", async () => {
         const store = mockStore({ ...initialState });
         store.dispatch(incrementOne());
         expect(store.getActions()[0].type).toBe(INCREMENT_ONE);
@@ -40,7 +40,7 @@ describe("Redux - counter", () => {
         expect(typeof decrementOne === "function").toBeDefined();
       });
 
-      test("decrementOne - should increment number 1", async () => {
+      test("decrementOne - type of DECREMENT_ONE", async () => {
         const store = mockStore({ ...initialState });
         store.dispatch(decrementOne());
         expect(store.getActions()[0].type).toBe(DECREMENT_ONE);
@@ -54,7 +54,7 @@ describe("Redux - counter", () => {
         expect(typeof setZero === "function").toBeDefined();
       });
 
-      test("setZero - should set to 0", async () => {
+      test("setZero - type of SET_ZERO", async () => {
         const store = mockStore({ ...initialState });
         store.dispatch(setZero());
         expect(store.getActions()[0].type).toBe(SET_ZERO);
