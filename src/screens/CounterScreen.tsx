@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { connect } from "react-redux";
 import { StyleSheet, Alert } from "react-native";
 import { Button, Content, Text, Row, Col, View } from "native-base";
@@ -32,12 +32,21 @@ const CounterScreen: NavFunctionComponent = ({
   decrementOne,
   setZero
 }: IProps): JSX.Element => {
+  // visible add
+  const [visibleAdd, setVisibleAdd]: [boolean, any] = useState<boolean>(true);
+  // on add error
+  const onAddError = (): void => {
+    setVisibleAdd(false);
+  };
+  // on +
   const onIncrementPress = (): void => {
     incrementOne();
   };
+  // on -
   const onDecrementPress = (): void => {
     decrementOne();
   };
+  // on 0
   const onSetZero = (): void => {
     if (counter.number !== 0) {
       Alert.alert(
@@ -55,6 +64,7 @@ const CounterScreen: NavFunctionComponent = ({
       );
     }
   };
+  // on submit
   const onSubmitScore = (): void => {
     if (counter.number === 0) {
       Alert.alert(
@@ -70,16 +80,23 @@ const CounterScreen: NavFunctionComponent = ({
     <MainLayout>
       <Content padder contentContainerStyle={styles.mainContainer}>
         {/* Banner AdMob */}
-        <View style={{ justifyContent: "center", alignContent: "center" }}>
-          <AdMobBanner
-            bannerSize="largeBanner"
-            adUnitID="ca-app-pub-3940256099942544/6300978111"
-            testDeviceID="EMULATOR"
-            servePersonalizedAds
-            onDidFailToReceiveAdWithError={err => console.log(err)}
-            style={{ alignSelf: "center" }}
-          />
-        </View>
+        {visibleAdd && (
+          <View style={{ justifyContent: "center", alignContent: "center" }}>
+            <AdMobBanner
+              bannerSize="largeBanner"
+              adUnitID="ca-app-pub-3946063352423429/4852289087"
+              testDeviceID="EMULATOR"
+              servePersonalizedAds
+              onDidFailToReceiveAdWithError={err => {
+                console.log(err);
+                if (err) {
+                  onAddError();
+                }
+              }}
+              style={{ alignSelf: "center" }}
+            />
+          </View>
+        )}
 
         {/* Counter */}
         <Text style={styles.numberStyles}>{counter.number}</Text>
@@ -111,7 +128,6 @@ const CounterScreen: NavFunctionComponent = ({
               </Button>
             </Col>
           </Row>
-
           {/* Button submit */}
           <View
             style={[styles.buttonWrapperStyle, styles.buttonWrapperSubmitStyle]}
