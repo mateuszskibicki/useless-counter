@@ -6,12 +6,12 @@ import MainLayout from "../components/layout/main/MainLayout";
 import { incrementOne, decrementOne, setZero } from "../store/actions/counter";
 import { ICounter } from "../types/types";
 import { colors } from "../constants/stylesMain";
-// import {
-//   AdMobBanner
-//   // AdMobInterstitial,
-//   // PublisherBanner,
-//   // AdMobRewarded
-// } from "expo-ads-admob";
+import {
+  AdMobBanner
+  // AdMobInterstitial,
+  // PublisherBanner,
+  // AdMobRewarded
+} from "expo-ads-admob";
 
 export interface IProps {
   navigation: any;
@@ -70,13 +70,17 @@ const CounterScreen: NavFunctionComponent = ({
     <MainLayout>
       <Content padder contentContainerStyle={styles.mainContainer}>
         {/* Banner AdMob */}
-        {/* <AdMobBanner
-          bannerSize="largeBanner"
-          adUnitID="ca-app-pub-3946063352423429/4621528252"
-          // testDeviceID="EMULATOR"
-          // servePersonalizedAds // true or false
-          onDidFailToReceiveAdWithError={err => console.log(err)}
-        /> */}
+        <View style={{ justifyContent: "center", alignContent: "center" }}>
+          <AdMobBanner
+            bannerSize="largeBanner"
+            adUnitID="ca-app-pub-3940256099942544/6300978111"
+            testDeviceID="EMULATOR"
+            servePersonalizedAds
+            onDidFailToReceiveAdWithError={err => console.log(err)}
+            style={{ alignSelf: "center" }}
+          />
+        </View>
+
         {/* Counter */}
         <Text style={styles.numberStyles}>{counter.number}</Text>
         <View>
@@ -128,7 +132,6 @@ const CounterScreen: NavFunctionComponent = ({
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    // backgroundColor: colors.primary,
     justifyContent: "space-around",
     flexDirection: "column"
   },
