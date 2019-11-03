@@ -6,12 +6,7 @@ import MainLayout from "../components/layout/main/MainLayout";
 import { incrementOne, decrementOne, setZero } from "../store/actions/counter";
 import { ICounter } from "../types/types";
 import { colors } from "../constants/stylesMain";
-import {
-  AdMobBanner
-  // AdMobInterstitial,
-  // PublisherBanner,
-  // AdMobRewarded
-} from "expo-ads-admob";
+import AdBanner1 from "../components/ads/AdBanner1";
 
 export interface IProps {
   navigation: any;
@@ -26,17 +21,17 @@ export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
 }
 
 const CounterScreen: NavFunctionComponent = ({
-  navigation,
+  // navigation,
   counter,
   incrementOne,
   decrementOne,
   setZero
 }: IProps): JSX.Element => {
-  // visible add
-  const [visibleAdd, setVisibleAdd]: [boolean, any] = useState<boolean>(true);
-  // on add error
-  const onAddError = (): void => {
-    setVisibleAdd(false);
+  // visible ad
+  const [visibleAd, setVisibleAd]: [boolean, any] = useState<boolean>(true);
+  // on ad error
+  const onAdError = (): void => {
+    setVisibleAd(false);
   };
   // on +
   const onIncrementPress = (): void => {
@@ -80,24 +75,7 @@ const CounterScreen: NavFunctionComponent = ({
     <MainLayout>
       <Content padder contentContainerStyle={styles.mainContainer}>
         {/* Banner AdMob */}
-        {visibleAdd && (
-          <View style={{ justifyContent: "center", alignContent: "center" }}>
-            <AdMobBanner
-              bannerSize="largeBanner"
-              adUnitID="ca-app-pub-3946063352423429/4852289087"
-              testDeviceID="EMULATOR"
-              servePersonalizedAds
-              onDidFailToReceiveAdWithError={err => {
-                console.log(err);
-                if (err) {
-                  onAddError();
-                }
-              }}
-              style={{ alignSelf: "center" }}
-            />
-          </View>
-        )}
-
+        {visibleAd && <AdBanner1 onAdError={onAdError} />}
         {/* Counter */}
         <Text style={styles.numberStyles}>{counter.number}</Text>
         <View>
