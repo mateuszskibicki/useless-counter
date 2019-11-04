@@ -1,3 +1,4 @@
+import { getHighestScores } from "./../actions/scores/index";
 import {
   SET_LOWEST_SCORES_ERROR_TRUE,
   SET_LOWEST_SCORES_ERROR_FALSE,
@@ -45,6 +46,9 @@ export default function(state: IScoresReducer = initialState, action) {
         break;
       case SET_HIGHEST_SCORES_ERROR_FALSE:
         draft.highestScoresError = false;
+        break;
+      case GET_HIGHEST_SCORES:
+        draft.highestScores = action.payload.scores;
         break;
     }
   });

@@ -9,6 +9,7 @@ import {
   setLowestScoresErrorTrue,
   setLowestScoresErrorFalse,
   getLowestScores,
+  getHighestScores,
   setHighestScoresErrorTrue,
   setHighestScoresErrorFalse
 } from "../../../../src/store/actions/scores";
@@ -154,6 +155,14 @@ describe("Redux - scores", () => {
           expect(store.getActions()[0].type).toBe(
             SET_HIGHEST_SCORES_ERROR_FALSE
           );
+        });
+      });
+
+      // get highest scores - unit
+      describe("getHighestScores", () => {
+        test("getHighestScores - should be defined and function", () => {
+          expect(getHighestScores).toBeDefined();
+          expect(typeof getHighestScores === "function").toBeDefined();
         });
       });
     });

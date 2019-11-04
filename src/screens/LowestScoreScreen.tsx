@@ -50,25 +50,26 @@ const LowestScoreScreen: NavFunctionComponent = ({
         </Text>
         {/* Last 50 small text */}
         <Text style={[styles.textStyle, styles.textStyleSubtitle]}>
-          Last 50
+          Worst 50
         </Text>
         {/* Spinner or reload button */}
-        {loading ? (
-          <Spinner />
-        ) : (
+        {loading && <Spinner />}
+        {/* Error message  */}
+        {lowestScoresError && (
+          <ErrorMessage
+            text={"Something went wrong, please try again or contact me."}
+          />
+        )}
+        {/* Scores list  */}
+        {scores && !loading && <ScoresList scores={lowestScores} />}
+        {/* Button to realod  */}
+        {!loading && (
           <View style={[styles.reloadButtonWrapper]}>
             <Button onPress={onReloadClick} style={[styles.buttonStyle]}>
               <Text style={styles.buttonTextStyle}>Reload</Text>
             </Button>
           </View>
         )}
-        {/* Error */}
-        {lowestScoresError && (
-          <ErrorMessage
-            text={"Something went wrong, please try again or contact me."}
-          />
-        )}
-        {scores && <ScoresList scores={lowestScores} />}
       </Content>
     </MainLayout>
   );
@@ -90,7 +91,8 @@ const styles = StyleSheet.create({
     fontSize: 36
   },
   textStyleSubtitle: {
-    fontSize: 16
+    fontSize: 16,
+    marginBottom: 32
   },
   reloadButtonWrapper: {
     marginTop: 16,

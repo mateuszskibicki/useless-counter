@@ -115,3 +115,37 @@ export const setHighestScoresErrorTrue: Function = (): ISetHighestErrorTrue => {
 export const setHighestScoresErrorFalse: Function = (): ISetHighestErrorFalse => {
   return { type: SET_HIGHEST_SCORES_ERROR_FALSE };
 };
+
+// Get highest scores
+export const getHighestScores: Function = () => async dispatch => {
+  dispatch(setScoresLoadingTrue());
+  dispatch(setHighestScoresErrorFalse());
+  try {
+    const results: AxiosResponse = await axios.get(
+      "https://k5aoj78ufl.execute-api.eu-west-2.amazonaws.com/dev/scores?type=increment"
+    );
+    if (
+      results &&
+      results.data &&
+      results.data.data &&
+      results.data.data.Items &&
+      results.data.data.Items.length > 0
+    ) {
+      // 200 and ok
+      dispatch({
+        type: GET_HIGHEST_SCORES,
+        payload: { scores: results.data.data.Items }
+      });
+      dispatch(setScoresLoadingFalse());
+    } else {
+      // not found or some error
+      dispatch(setHighestScoresErrorTrue());
+      dispatch(setScoresLoadingFalse());
+    }
+  } catch (err) {
+    // error
+    console.log(err);
+    dispatch(setHighestScoresErrorTrue());
+    dispatch(setScoresLoadingFalse());
+  }
+};

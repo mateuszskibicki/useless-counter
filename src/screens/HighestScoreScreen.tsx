@@ -1,25 +1,19 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { connect } from "react-redux";
 import { StyleSheet } from "react-native";
-import { Button, Content, Text, Row, Col, View } from "native-base";
+import { Button, Content, Text, View } from "native-base";
 import MainLayout from "../components/layout/main/MainLayout";
-import { incrementOne, decrementOne, setZero } from "../store/actions/counter";
-import { ICounter } from "../types/types";
+import { getHighestScores } from "../store/actions/scores";
+import { IScoresReducer } from "../types/types";
 import { colors } from "../constants/stylesMain";
-// import {
-//   AdMobBanner,
-//   // AdMobInterstitial,
-//   // PublisherBanner,
-//   AdMobRewarded
-// } from "expo-ads-admob";
-// AdMobRewarded.setAdUnitID("ca-app-pub-3946063352423429/6060950045");
-// AdMobRewarded.setTestDeviceID("EMULATOR");
+import Spinner from "../components/spinner/Spinner";
+import ErrorMessage from "../components/errorMessage/ErrorMessage";
+import ScoresList from "../components/scores/ScoresList";
+
 export interface IProps {
   navigation: any;
-  counter: ICounter;
-  incrementOne: typeof incrementOne;
-  decrementOne: typeof decrementOne;
-  setZero: typeof setZero;
+  scores: IScoresReducer;
+  getHighestScores: typeof getHighestScores;
 }
 
 export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
@@ -27,34 +21,55 @@ export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
 }
 
 const HighestScoreScreen: NavFunctionComponent = ({
-  navigation
+  navigation,
+  scores,
+  getHighestScores
 }: IProps): JSX.Element => {
-  // const onClickAdd = async () => {
-  //   try {
-  //     await AdMobRewarded.requestAdAsync();
-  //     await AdMobRewarded.showAdAsync();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const { highestScores, highestScoresError, loading } = scores;
+
+  const onReloadClick = async () => {
+    await getHighestScores();
+  };
+
+  const onScreenLoad = async () => {
+    if (scores && !highestScores && !highestScoresError) {
+      await getHighestScores();
+    }
+  };
+
+  useEffect(() => {
+    onScreenLoad();
+  }, []);
 
   return (
     <MainLayout>
       <Content padder contentContainerStyle={styles.mainContainer}>
-        {/* Counter */}
-        <Text style={styles.textStyle}>Highest score screen</Text>
-        {/* <Button onPress={onClickAdd}>
-          <Text>click meee</Text>
-        </Button> */}
-        {/* <View>
-          <AdMobBanner
-            bannerSize="largeBanner"
-            adUnitID="ca-app-pub-3946063352423429/4852289087"
-            testDeviceID="EMULATOR"
-            servePersonalizedAds // true or false
-            onDidFailToReceiveAdWithError={this.bannerError}
+        {/* Title */}
+        <Text style={[styles.textStyle, styles.textStyleTitle]}>
+          Highest scores
+        </Text>
+        {/* Last 50 small text */}
+        <Text style={[styles.textStyle, styles.textStyleSubtitle]}>
+          Best 50
+        </Text>
+        {/* Spinner or reload button */}
+        {loading && <Spinner />}
+        {/* Error message  */}
+        {highestScoresError && (
+          <ErrorMessage
+            text={"Something went wrong, please try again or contact me."}
           />
-        </View> */}
+        )}
+        {/* Scores list  */}
+        {scores && !loading && <ScoresList scores={highestScores} />}
+        {/* Button to realod  */}
+        {!loading && (
+          <View style={[styles.reloadButtonWrapper]}>
+            <Button onPress={onReloadClick} style={[styles.buttonStyle]}>
+              <Text style={styles.buttonTextStyle}>Reload</Text>
+            </Button>
+          </View>
+        )}
       </Content>
     </MainLayout>
   );
@@ -65,18 +80,43 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   textStyle: {
-    fontSize: 60,
     fontWeight: "600",
     textAlign: "center",
     color: colors.whiteTextColor,
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 4 },
     textShadowRadius: 12
+  },
+  textStyleTitle: {
+    fontSize: 36
+  },
+  textStyleSubtitle: {
+    fontSize: 16,
+    marginBottom: 32
+  },
+  reloadButtonWrapper: {
+    marginTop: 16,
+    marginBottom: 16,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  buttonStyle: {
+    width: 230,
+    backgroundColor: colors.backgroundColor,
+    borderRadius: 20,
+    elevation: 7
+  },
+  buttonTextStyle: {
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
+    width: "100%",
+    color: colors.primary
   }
 });
 
-const mapStateToProps = ({ counter }) => ({ counter });
-const mapDispatchToProps = { incrementOne, decrementOne, setZero };
+const mapStateToProps = ({ scores }) => ({ scores });
+const mapDispatchToProps = { getHighestScores };
 
 export default connect(
   mapStateToProps,
