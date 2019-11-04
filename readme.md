@@ -25,3 +25,5 @@ rewarded 1 - add clicks
 ca-app-pub-3946063352423429/6060950045
 rewarded 2 - remove clicks
 ca-app-pub-3946063352423429/7182460025
+
+TODO MEMO
