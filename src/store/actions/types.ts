@@ -1,6 +1,8 @@
 // Counter
 export const INCREMENT_ONE: String = "INCREMENT_ONE";
+export const INCREMENT_1000: String = "INCREMENT_1000";
 export const DECREMENT_ONE: String = "DECREMENT_ONE";
+export const DECREMENT_1000: String = "DECREMENT_1000";
 export const SET_ZERO: String = "SET_ZERO";
 
 // Scores

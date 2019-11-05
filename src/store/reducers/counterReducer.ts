@@ -1,4 +1,10 @@
-import { INCREMENT_ONE, DECREMENT_ONE, SET_ZERO } from "../actions/types";
+import {
+  INCREMENT_ONE,
+  INCREMENT_1000,
+  DECREMENT_ONE,
+  DECREMENT_1000,
+  SET_ZERO
+} from "../actions/types";
 import { Action } from "redux";
 import { produce, Draft } from "immer";
 
@@ -16,8 +22,14 @@ export default function(state: IState = initialState, action: Action) {
       case INCREMENT_ONE:
         draft.number++;
         break;
+      case INCREMENT_1000:
+        draft.number = draft.number + 1000;
+        break;
       case DECREMENT_ONE:
         draft.number--;
+        break;
+      case DECREMENT_1000:
+        draft.number = draft.number - 1000;
         break;
       case SET_ZERO:
         draft.number = 0;

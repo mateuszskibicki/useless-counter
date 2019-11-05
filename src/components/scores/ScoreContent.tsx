@@ -16,7 +16,8 @@ const stylesContent = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 24,
     elevation: 4,
-    padding: 10
+    padding: 12,
+    fontSize: 16
   }
 });
 

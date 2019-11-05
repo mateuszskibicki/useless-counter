@@ -1,6 +1,8 @@
 import {
   INCREMENT_ONE,
+  INCREMENT_1000,
   DECREMENT_ONE,
+  DECREMENT_1000,
   SET_ZERO,
   SET_SCORES_LOADING_TRUE,
   SET_SCORES_LOADING_FALSE,
@@ -20,10 +22,24 @@ describe("REDUX - TYPES", () => {
     });
   });
 
+  describe("INCREMENT_1000", () => {
+    test("should be defined and string", () => {
+      expect(INCREMENT_1000).toBeDefined();
+      expect(typeof INCREMENT_1000 === "string").toBeTruthy();
+    });
+  });
+
   describe("DECREMENT_ONE", () => {
     test("should be defined and string", () => {
       expect(DECREMENT_ONE).toBeDefined();
       expect(typeof DECREMENT_ONE === "string").toBeTruthy();
+    });
+  });
+
+  describe("DECREMENT_1000", () => {
+    test("should be defined and string", () => {
+      expect(DECREMENT_1000).toBeDefined();
+      expect(typeof DECREMENT_1000 === "string").toBeTruthy();
     });
   });
 

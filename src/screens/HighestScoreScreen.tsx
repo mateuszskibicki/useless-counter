@@ -9,6 +9,7 @@ import { colors } from "../constants/stylesMain";
 import Spinner from "../components/spinner/Spinner";
 import ErrorMessage from "../components/errorMessage/ErrorMessage";
 import ScoresList from "../components/scores/ScoresList";
+import AdBanner from "../components/ads/AdBanner";
 
 export interface IProps {
   navigation: any;
@@ -52,6 +53,12 @@ const HighestScoreScreen: NavFunctionComponent = ({
         <Text style={[styles.textStyle, styles.textStyleSubtitle]}>
           Best 50
         </Text>
+        {/* Banner AdMob */}
+        <AdBanner
+          bannerSize="largeBanner"
+          adUnitID="ca-app-pub-3946063352423429/3894430636"
+          styleWrapper={{ marginBottom: 24 }}
+        />
         {/* Spinner or reload button */}
         {loading && <Spinner />}
         {/* Error message  */}
@@ -70,6 +77,11 @@ const HighestScoreScreen: NavFunctionComponent = ({
             </Button>
           </View>
         )}
+        {/* Banner AdMob */}
+        <AdBanner
+          bannerSize="largeBanner"
+          adUnitID="ca-app-pub-3946063352423429/3894430636"
+        />
       </Content>
     </MainLayout>
   );
