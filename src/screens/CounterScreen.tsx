@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { connect } from "react-redux";
 import { StyleSheet, Alert } from "react-native";
 import { Button, Content, Text, Row, Col, View } from "native-base";
@@ -7,13 +7,14 @@ import {
   incrementOne,
   increment1000,
   decrementOne,
-  decrement1000,
-  setZero
+  decrement1000
 } from "../store/actions/counter";
-import { ICounter } from "../types/types";
-import { colors } from "../constants/stylesMain";
+import CounterNumber from "../components/counter/CounterNumber";
+import ButtonSet0 from "../components/counter/ButtonSet0";
 import AdBanner from "../components/ads/AdBanner";
 import { AdMobRewarded } from "expo-ads-admob";
+import { ICounter } from "../types/types";
+import { colors } from "../constants/stylesMain";
 
 export interface IProps {
   navigation: any;
@@ -22,7 +23,6 @@ export interface IProps {
   increment1000: typeof increment1000;
   decrementOne: typeof decrementOne;
   decrement1000: typeof decrement1000;
-  setZero: typeof setZero;
 }
 
 export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
@@ -35,37 +35,19 @@ const CounterScreen: NavFunctionComponent = ({
   incrementOne,
   increment1000,
   decrementOne,
-  decrement1000,
-  setZero
+  decrement1000
 }: IProps): JSX.Element => {
   // on +
-  const onIncrementPress = (): void => {
+  const onIncrementPress = useCallback((): void => {
     incrementOne();
-  };
+  }, []);
   // on -
-  const onDecrementPress = (): void => {
+  const onDecrementPress = useCallback((): void => {
     decrementOne();
-  };
-  // on 0
-  const onSetZero = (): void => {
-    if (counter.number !== 0) {
-      Alert.alert(
-        "Be careful",
-        "Are you sure you want to set your score to 0?",
-        [
-          { text: "No" },
-          {
-            text: "Yes",
-            onPress: () => setZero(),
-            style: "cancel"
-          }
-        ],
-        { cancelable: false }
-      );
-    }
-  };
+  }, []);
+
   // on submit
-  const onSubmitScore = (): void => {
+  const onSubmitScore = useCallback((): void => {
     if (counter.number === 0) {
       Alert.alert(
         "Error",
@@ -74,9 +56,10 @@ const CounterScreen: NavFunctionComponent = ({
         { cancelable: false }
       );
     }
-  };
+  }, []);
+
   // on -1000
-  const onMinus1000Press = async (): Promise<any> => {
+  const onMinus1000Press = useCallback(async (): Promise<any> => {
     AdMobRewarded.setAdUnitID("ca-app-pub-3946063352423429/7182460025");
     AdMobRewarded.setTestDeviceID("EMULATOR");
     AdMobRewarded.addEventListener("rewardedVideoDidClose", () => {
@@ -84,9 +67,10 @@ const CounterScreen: NavFunctionComponent = ({
     });
     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true });
     await AdMobRewarded.showAdAsync();
-  };
+  }, []);
+
   // on +1000
-  const onPlus1000Press = async (): Promise<any> => {
+  const onPlus1000Press = useCallback(async (): Promise<any> => {
     AdMobRewarded.setAdUnitID("ca-app-pub-3946063352423429/6060950045");
     AdMobRewarded.setTestDeviceID("EMULATOR");
     AdMobRewarded.addEventListener("rewardedVideoDidClose", () => {
@@ -94,7 +78,7 @@ const CounterScreen: NavFunctionComponent = ({
     });
     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true });
     await AdMobRewarded.showAdAsync();
-  };
+  }, []);
 
   return (
     <MainLayout>
@@ -105,7 +89,7 @@ const CounterScreen: NavFunctionComponent = ({
           adUnitID="ca-app-pub-3946063352423429/4852289087"
         />
         {/* Counter */}
-        <Text style={styles.numberStyles}>{counter.number}</Text>
+        <CounterNumber />
         <View>
           {/* Buttons functional */}
           <Row style={styles.buttonsWrapperStyle}>
@@ -119,11 +103,11 @@ const CounterScreen: NavFunctionComponent = ({
               </Button>
             </Col>
             {/* Button set 0 */}
-            <Col style={styles.buttonWrapperStyle}>
-              <Button onPress={onSetZero} style={styles.buttonStyle}>
-                <Text style={styles.buttonTextStyle}>0</Text>
-              </Button>
-            </Col>
+            <ButtonSet0
+              buttonWrapperStyle={styles.buttonWrapperStyle}
+              buttonStyle={styles.buttonStyle}
+              buttonTextStyle={styles.buttonTextStyle}
+            />
             {/* Button +1 */}
             <Col style={styles.buttonWrapperStyle}>
               <Button
@@ -178,15 +162,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-evenly",
     flexDirection: "column"
-  },
-  numberStyles: {
-    fontSize: 60,
-    fontWeight: "600",
-    textAlign: "center",
-    color: colors.whiteTextColor,
-    textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowOffset: { width: 1, height: 4 },
-    textShadowRadius: 12
   },
   buttonsWrapperStyle: {
     justifyContent: "center"
@@ -255,11 +230,14 @@ const mapDispatchToProps = {
   incrementOne,
   increment1000,
   decrementOne,
-  decrement1000,
-  setZero
+  decrement1000
 };
+
+function areEqual(prevProps, nextProps) {
+  return true;
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(memo(CounterScreen));
+)(memo(CounterScreen, areEqual));
