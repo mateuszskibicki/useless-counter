@@ -6,6 +6,11 @@ export const DECREMENT_1000: String = "DECREMENT_1000";
 export const SET_ZERO: String = "SET_ZERO";
 
 // Scores
+export const SUBMIT_SCORE: String = "SUBMIT_SCORE";
+export const SET_SUBMIT_SCORE_ERROR_FALSE: String =
+  "SET_SUBMIT_SCORE_ERROR_FALSE";
+export const SET_SUBMIT_SCORE_ERROR_TRUE: String =
+  "SET_SUBMIT_SCORE_ERROR_TRUE";
 export const SET_SCORES_LOADING_TRUE: String = "SET_SCORES_LOADING_TRUE";
 export const SET_SCORES_LOADING_FALSE: String = "SET_SCORES_LOADING_FALSE";
 export const GET_LOWEST_SCORES: String = "GET_LOWEST_SCORES";

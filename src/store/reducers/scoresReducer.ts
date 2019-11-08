@@ -1,4 +1,3 @@
-import { getHighestScores } from "./../actions/scores/index";
 import {
   SET_LOWEST_SCORES_ERROR_TRUE,
   SET_LOWEST_SCORES_ERROR_FALSE,
@@ -7,7 +6,10 @@ import {
   GET_LOWEST_SCORES,
   GET_HIGHEST_SCORES,
   SET_SCORES_LOADING_TRUE,
-  SET_SCORES_LOADING_FALSE
+  SET_SCORES_LOADING_FALSE,
+  SUBMIT_SCORE,
+  SET_SUBMIT_SCORE_ERROR_TRUE,
+  SET_SUBMIT_SCORE_ERROR_FALSE
 } from "../actions/types";
 import { produce, Draft } from "immer";
 import { IScoresReducer } from "../../types/types";
@@ -17,7 +19,9 @@ export const initialState: IScoresReducer = {
   lowestScoresError: false,
   lowestScores: null,
   highestScoresError: false,
-  highestScores: null
+  highestScores: null,
+  submitScoreSuccess: false,
+  submitScoreError: false
 };
 
 export default function(state: IScoresReducer = initialState, action) {
@@ -49,6 +53,16 @@ export default function(state: IScoresReducer = initialState, action) {
         break;
       case GET_HIGHEST_SCORES:
         draft.highestScores = action.payload.scores;
+        break;
+      // submit score
+      case SUBMIT_SCORE:
+        draft.submitScoreSuccess = true;
+        break;
+      case SET_SUBMIT_SCORE_ERROR_TRUE:
+        draft.submitScoreError = true;
+        break;
+      case SET_SUBMIT_SCORE_ERROR_FALSE:
+        draft.submitScoreError = false;
         break;
     }
   });

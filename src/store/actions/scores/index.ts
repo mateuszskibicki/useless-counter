@@ -1,4 +1,7 @@
 import {
+  SUBMIT_SCORE,
+  SET_SUBMIT_SCORE_ERROR_TRUE,
+  SET_SUBMIT_SCORE_ERROR_FALSE,
   SET_SCORES_LOADING_TRUE,
   SET_SCORES_LOADING_FALSE,
   GET_LOWEST_SCORES,
@@ -8,7 +11,20 @@ import {
   SET_HIGHEST_SCORES_ERROR_TRUE,
   SET_HIGHEST_SCORES_ERROR_FALSE
 } from "../types";
+import { setZero } from "../counter";
 import axios, { AxiosResponse } from "axios";
+
+export interface ISubmitScore {
+  type: typeof SUBMIT_SCORE;
+}
+
+export interface ISetSubmitScoreErrorTrue {
+  type: typeof SET_SUBMIT_SCORE_ERROR_TRUE;
+}
+
+export interface ISetSubmitScoreErrorFalse {
+  type: typeof SET_SUBMIT_SCORE_ERROR_FALSE;
+}
 
 export interface ISetScoresLoadingTrue {
   type: typeof SET_SCORES_LOADING_TRUE;
@@ -146,6 +162,69 @@ export const getHighestScores: Function = () => async dispatch => {
     // error
     console.log(err);
     dispatch(setHighestScoresErrorTrue());
+    dispatch(setScoresLoadingFalse());
+  }
+};
+
+/**
+|--------------------------------------------------
+| SUBMIT SCORE
+|--------------------------------------------------
+*/
+
+export const submitScore: Function = ({
+  user_nickname,
+  score,
+  message
+}: {
+  user_nickname: string;
+  score: number;
+  message: string;
+}) => async dispatch => {
+  dispatch(setScoresLoadingTrue());
+  dispatch({ type: SET_SUBMIT_SCORE_ERROR_FALSE });
+
+  if (
+    !user_nickname ||
+    !score ||
+    !message ||
+    typeof user_nickname !== "string" ||
+    user_nickname.length === 0 ||
+    typeof score !== "number"
+  )
+    return dispatch({ type: SET_SUBMIT_SCORE_ERROR_TRUE });
+
+  try {
+    const results: AxiosResponse = await axios.post(
+      "https://k5aoj78ufl.execute-api.eu-west-2.amazonaws.com/dev/score",
+      {
+        user_nickname,
+        score,
+        message
+      }
+    );
+
+    if (
+      results &&
+      results.status === 200 &&
+      results.data &&
+      results.data.success
+    ) {
+      // 200 and ok
+      dispatch({
+        type: SUBMIT_SCORE
+      });
+      dispatch(setZero());
+      dispatch(setScoresLoadingFalse());
+    } else {
+      // not found or some error
+      dispatch({ type: SET_SUBMIT_SCORE_ERROR_TRUE });
+      dispatch(setScoresLoadingFalse());
+    }
+  } catch (err) {
+    // error
+    console.log(err);
+    dispatch({ type: SET_SUBMIT_SCORE_ERROR_TRUE });
     dispatch(setScoresLoadingFalse());
   }
 };

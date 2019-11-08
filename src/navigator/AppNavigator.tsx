@@ -5,6 +5,7 @@
 */
 import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import { Icon } from "native-base";
 // screens
@@ -39,10 +40,30 @@ const navOptionHelper: Function = ({
   };
 };
 
+const CounterStackNavigator = createStackNavigator(
+  {
+    Counter: {
+      screen: Screens.CounterScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Submit: {
+      screen: Screens.SubmitScoreScreen,
+      navigationOptions: {
+        title: "Submit score!",
+        headerStyle: { backgroundColor: colors.primary },
+        headerTitleStyle: { color: colors.whiteSmoke }
+      }
+    }
+  },
+  { initialRouteName: "Counter" }
+);
+
 const CounterStackBottomNav = createMaterialBottomTabNavigator(
   {
     CounterStack: {
-      screen: Screens.CounterScreen,
+      screen: CounterStackNavigator,
       navigationOptions: navigation => {
         return navOptionHelper({
           isFocused: navigation.navigation.isFocused(),

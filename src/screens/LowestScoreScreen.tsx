@@ -7,7 +7,7 @@ import { getLowestScores } from "../store/actions/scores";
 import { IScoresReducer } from "../types/types";
 import { colors } from "../constants/stylesMain";
 import Spinner from "../components/spinner/Spinner";
-import ErrorMessage from "../components/errorMessage/ErrorMessage";
+import MessageBox from "../components/MessageBox/MessageBox";
 import ScoresList from "../components/scores/ScoresList";
 import AdBanner from "../components/ads/AdBanner";
 
@@ -63,7 +63,7 @@ const LowestScoreScreen: NavFunctionComponent = ({
         {loading && <Spinner />}
         {/* Error message  */}
         {lowestScoresError && (
-          <ErrorMessage
+          <MessageBox
             text={"Something went wrong, please try again or contact me."}
           />
         )}

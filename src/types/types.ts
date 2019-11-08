@@ -15,4 +15,6 @@ export interface IScoresReducer {
   highestScoresError: boolean;
   lowestScores: null | [ISingleScore];
   lowestScoresError: boolean;
+  submitScoreSuccess: boolean;
+  submitScoreError: boolean;
 }

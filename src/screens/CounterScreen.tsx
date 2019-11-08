@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from "react";
 import { connect } from "react-redux";
-import { StyleSheet, Alert } from "react-native";
+import { StyleSheet } from "react-native";
 import { Button, Content, Text, Row, Col, View } from "native-base";
 import MainLayout from "../components/layout/main/MainLayout";
 import {
@@ -11,6 +11,7 @@ import {
 } from "../store/actions/counter";
 import CounterNumber from "../components/counter/CounterNumber";
 import ButtonSet0 from "../components/counter/ButtonSet0";
+import ButtonSubmit from "../components/counter/ButtonSubmit";
 import AdBanner from "../components/ads/AdBanner";
 import { AdMobRewarded } from "expo-ads-admob";
 import { ICounter } from "../types/types";
@@ -31,7 +32,6 @@ export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
 
 const CounterScreen: NavFunctionComponent = ({
   // navigation,
-  counter,
   incrementOne,
   increment1000,
   decrementOne,
@@ -41,21 +41,10 @@ const CounterScreen: NavFunctionComponent = ({
   const onIncrementPress = useCallback((): void => {
     incrementOne();
   }, []);
+
   // on -
   const onDecrementPress = useCallback((): void => {
     decrementOne();
-  }, []);
-
-  // on submit
-  const onSubmitScore = useCallback((): void => {
-    if (counter.number === 0) {
-      Alert.alert(
-        "Error",
-        "You can't submit score 0, try again with different number.",
-        [{ text: "Ok" }],
-        { cancelable: false }
-      );
-    }
   }, []);
 
   // on -1000
@@ -142,16 +131,14 @@ const CounterScreen: NavFunctionComponent = ({
             </Col>
           </Row>
         </View>
-        <View
-          style={[styles.buttonWrapperStyle, styles.buttonWrapperSubmitStyle]}
-        >
-          <Button
-            onPress={onSubmitScore}
-            style={[styles.buttonStyle, styles.buttonSubmitStyle]}
-          >
-            <Text style={styles.buttonTextStyle}>Submit score</Text>
-          </Button>
-        </View>
+        {/* Button submit */}
+        <ButtonSubmit
+          buttonWrapperStyle={styles.buttonWrapperStyle}
+          buttonStyle={styles.buttonStyle}
+          buttonTextStyle={styles.buttonTextStyle}
+          buttonWrapperSubmitStyle={styles.buttonWrapperSubmitStyle}
+          buttonSubmitStyle={styles.buttonSubmitStyle}
+        />
       </Content>
     </MainLayout>
   );
@@ -170,7 +157,10 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center"
-    // marginTop: 60
+  },
+  buttonSubmitStyle: {
+    width: 230,
+    borderRadius: 20
   },
   buttonWrapperStyle: {
     padding: 1,
@@ -205,10 +195,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20
   },
-  buttonSubmitStyle: {
-    width: 230,
-    borderRadius: 20
-  },
   buttonTextStyle: {
     fontSize: 14,
     fontWeight: "600",
@@ -225,7 +211,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ counter }) => ({ counter });
 const mapDispatchToProps = {
   incrementOne,
   increment1000,
@@ -238,6 +223,6 @@ function areEqual(prevProps, nextProps) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(memo(CounterScreen, areEqual));
