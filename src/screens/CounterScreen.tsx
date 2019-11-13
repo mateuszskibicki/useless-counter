@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { StyleSheet } from "react-native";
 import { Button, Content, Text, Row, Col, View } from "native-base";
 import MainLayout from "../components/layout/main/MainLayout";
@@ -14,45 +14,35 @@ import ButtonSet0 from "../components/counter/ButtonSet0";
 import ButtonSubmit from "../components/counter/ButtonSubmit";
 import AdBanner from "../components/ads/AdBanner";
 import { AdMobRewarded } from "expo-ads-admob";
-import { ICounter } from "../types/types";
 import { colors } from "../constants/stylesMain";
+AdMobRewarded.setAdUnitID("ca-app-pub-3946063352423429/7182460025");
+AdMobRewarded.setTestDeviceID("EMULATOR");
 
 export interface IProps {
   navigation: any;
-  counter: ICounter;
-  incrementOne: typeof incrementOne;
-  increment1000: typeof increment1000;
-  decrementOne: typeof decrementOne;
-  decrement1000: typeof decrement1000;
 }
 
 export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
   navigationOptions?: Object;
 }
 
-const CounterScreen: NavFunctionComponent = ({
-  // navigation,
-  incrementOne,
-  increment1000,
-  decrementOne,
-  decrement1000
-}: IProps): JSX.Element => {
+const CounterScreen: NavFunctionComponent = (): JSX.Element => {
+  const dispatch = useDispatch();
+
   // on +
   const onIncrementPress = useCallback((): void => {
-    incrementOne();
+    dispatch(incrementOne());
   }, []);
 
   // on -
   const onDecrementPress = useCallback((): void => {
-    decrementOne();
+    dispatch(decrementOne());
   }, []);
 
   // on -1000
   const onMinus1000Press = useCallback(async (): Promise<any> => {
-    AdMobRewarded.setAdUnitID("ca-app-pub-3946063352423429/7182460025");
-    AdMobRewarded.setTestDeviceID("EMULATOR");
     AdMobRewarded.addEventListener("rewardedVideoDidClose", () => {
-      decrement1000();
+      dispatch(decrement1000());
     });
     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true });
     await AdMobRewarded.showAdAsync();
@@ -60,10 +50,8 @@ const CounterScreen: NavFunctionComponent = ({
 
   // on +1000
   const onPlus1000Press = useCallback(async (): Promise<any> => {
-    AdMobRewarded.setAdUnitID("ca-app-pub-3946063352423429/6060950045");
-    AdMobRewarded.setTestDeviceID("EMULATOR");
     AdMobRewarded.addEventListener("rewardedVideoDidClose", () => {
-      increment1000();
+      dispatch(increment1000());
     });
     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true });
     await AdMobRewarded.showAdAsync();
@@ -211,18 +199,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = {
-  incrementOne,
-  increment1000,
-  decrementOne,
-  decrement1000
-};
-
 function areEqual(prevProps, nextProps) {
   return true;
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(memo(CounterScreen, areEqual));
+export default memo(CounterScreen, areEqual);

@@ -1,46 +1,27 @@
-import React, { memo, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { memo } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Content, Text, View } from "native-base";
 import MainLayout from "../components/layout/main/MainLayout";
-import { getLowestScores } from "../store/actions/scores";
-import { IScoresReducer } from "../types/types";
 import { colors } from "../constants/stylesMain";
 import Spinner from "../components/spinner/Spinner";
 import MessageBox from "../components/MessageBox/MessageBox";
 import ScoresList from "../components/scores/ScoresList";
 import AdBanner from "../components/ads/AdBanner";
 
+import useGetLowestScores, {
+  TuseGetLowScores
+} from "../store/hooks/useGetLowestScores";
+
 export interface IProps {
   navigation: any;
-  scores: IScoresReducer;
-  getLowestScores: typeof getLowestScores;
 }
 
 export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
   navigationOptions?: Object;
 }
 
-const LowestScoreScreen: NavFunctionComponent = ({
-  navigation,
-  scores,
-  getLowestScores
-}: IProps): JSX.Element => {
-  const { lowestScores, lowestScoresError, loading } = scores;
-
-  const onReloadClick = async () => {
-    await getLowestScores();
-  };
-
-  const onScreenLoad = async () => {
-    if (scores && !lowestScores && !lowestScoresError) {
-      await getLowestScores();
-    }
-  };
-
-  useEffect(() => {
-    onScreenLoad();
-  }, []);
+const LowestScoreScreen: NavFunctionComponent = (): JSX.Element => {
+  const [state, getNewLowestScores]: TuseGetLowScores = useGetLowestScores();
 
   return (
     <MainLayout>
@@ -59,24 +40,25 @@ const LowestScoreScreen: NavFunctionComponent = ({
           adUnitID="ca-app-pub-3946063352423429/4621528252"
           styleWrapper={{ marginBottom: 24 }}
         />
-        {/* Spinner or reload button */}
-        {loading && <Spinner />}
+        {/* Loading */}
+        {state.loading && <Spinner />}
         {/* Error message  */}
-        {lowestScoresError && (
+        {state.lowestScoresError && (
           <MessageBox
             text={"Something went wrong, please try again or contact me."}
           />
         )}
         {/* Scores list  */}
-        {scores && !loading && <ScoresList scores={lowestScores} />}
-        {/* Button to realod  */}
-        {!loading && (
-          <View style={[styles.reloadButtonWrapper]}>
-            <Button onPress={onReloadClick} style={[styles.buttonStyle]}>
-              <Text style={styles.buttonTextStyle}>Reload</Text>
-            </Button>
-          </View>
+        {!state.loading && state.lowestScores && (
+          <ScoresList scores={state.lowestScores} />
         )}
+        {/* Button to realod  */}
+        <View style={[styles.reloadButtonWrapper]}>
+          <Button onPress={getNewLowestScores} style={[styles.buttonStyle]}>
+            <Text style={styles.buttonTextStyle}>Reload</Text>
+          </Button>
+        </View>
+
         <AdBanner
           bannerSize="largeBanner"
           adUnitID="ca-app-pub-3946063352423429/4621528252"
@@ -126,10 +108,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ scores }) => ({ scores });
-const mapDispatchToProps = { getLowestScores };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(LowestScoreScreen));
+export default memo(LowestScoreScreen);

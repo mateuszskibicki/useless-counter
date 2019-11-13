@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { View } from "native-base";
 import { StyleSheet, StyleProp, ViewStyle } from "react-native";
-
 import { AdMobBanner } from "expo-ads-admob";
 
-interface IProps {
+export interface IProps {
   bannerSize:
     | "banner"
     | "largeBanner"
@@ -39,6 +38,7 @@ const AdBanner: React.FunctionComponent<IProps> = ({
         testDeviceID="EMULATOR"
         servePersonalizedAds
         onDidFailToReceiveAdWithError={err => {
+          console.log("Error banner");
           console.log(err);
           if (err) {
             onAdError();

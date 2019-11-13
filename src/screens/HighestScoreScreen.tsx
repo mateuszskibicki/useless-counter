@@ -1,46 +1,27 @@
-import React, { memo, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { memo } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Content, Text, View } from "native-base";
 import MainLayout from "../components/layout/main/MainLayout";
-import { getHighestScores } from "../store/actions/scores";
-import { IScoresReducer } from "../types/types";
 import { colors } from "../constants/stylesMain";
 import Spinner from "../components/spinner/Spinner";
 import MessageBox from "../components/MessageBox/MessageBox";
 import ScoresList from "../components/scores/ScoresList";
 import AdBanner from "../components/ads/AdBanner";
 
+import useGetHighestScores, {
+  TuseGetHighScores
+} from "../store/hooks/useGetHighestScores";
+
 export interface IProps {
   navigation: any;
-  scores: IScoresReducer;
-  getHighestScores: typeof getHighestScores;
 }
 
 export interface NavFunctionComponent extends React.FunctionComponent<IProps> {
   navigationOptions?: Object;
 }
 
-const HighestScoreScreen: NavFunctionComponent = ({
-  navigation,
-  scores,
-  getHighestScores
-}: IProps): JSX.Element => {
-  const { highestScores, highestScoresError, loading } = scores;
-
-  const onReloadClick = async () => {
-    await getHighestScores();
-  };
-
-  const onScreenLoad = async () => {
-    if (scores && !highestScores && !highestScoresError) {
-      await getHighestScores();
-    }
-  };
-
-  useEffect(() => {
-    onScreenLoad();
-  }, []);
+const HighestScoreScreen: NavFunctionComponent = (): JSX.Element => {
+  const [state, getNewHighestScores]: TuseGetHighScores = useGetHighestScores();
 
   return (
     <MainLayout>
@@ -60,23 +41,24 @@ const HighestScoreScreen: NavFunctionComponent = ({
           styleWrapper={{ marginBottom: 24 }}
         />
         {/* Spinner or reload button */}
-        {loading && <Spinner />}
+        {state.loading && <Spinner />}
         {/* Error message  */}
-        {highestScoresError && (
+        {state.highestScoresError && (
           <MessageBox
             text={"Something went wrong, please try again or contact me."}
           />
         )}
         {/* Scores list  */}
-        {scores && !loading && <ScoresList scores={highestScores} />}
-        {/* Button to realod  */}
-        {!loading && (
-          <View style={[styles.reloadButtonWrapper]}>
-            <Button onPress={onReloadClick} style={[styles.buttonStyle]}>
-              <Text style={styles.buttonTextStyle}>Reload</Text>
-            </Button>
-          </View>
+        {state.highestScores && !state.loading && (
+          <ScoresList scores={state.highestScores} />
         )}
+        {/* Button to realod  */}
+        <View style={[styles.reloadButtonWrapper]}>
+          <Button onPress={getNewHighestScores} style={[styles.buttonStyle]}>
+            <Text style={styles.buttonTextStyle}>Reload</Text>
+          </Button>
+        </View>
+
         {/* Banner AdMob */}
         <AdBanner
           bannerSize="largeBanner"
@@ -127,10 +109,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ scores }) => ({ scores });
-const mapDispatchToProps = { getHighestScores };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(HighestScoreScreen));
+export default memo(HighestScoreScreen);
